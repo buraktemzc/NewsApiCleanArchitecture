@@ -10,8 +10,8 @@ class GetArticlesUseCase @Inject constructor(private val articleRepository: Arti
         page: Int,
         sortBy: String,
         query: String,
-        fromDate: String,
-        toDate: String
+        fromDate: String?,
+        toDate: String?
     ): Result<APIResponse> {
         return articleRepository.getArticles(page, sortBy, query, fromDate, toDate)
     }

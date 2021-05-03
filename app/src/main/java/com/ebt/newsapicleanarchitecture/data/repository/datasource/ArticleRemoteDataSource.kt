@@ -8,7 +8,7 @@ interface ArticleRemoteDataSource {
         page: Int,
         sortBy: String,
         query: String,
-        fromDate: String,
-        toDate: String
+        fromDate: String?,
+        toDate: String?
     ): Response<APIResponse>
 }

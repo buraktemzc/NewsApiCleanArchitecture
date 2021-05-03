@@ -10,8 +10,8 @@ class ArticleRemoteDataSourceImpl(private val apiService: ApiService) : ArticleR
         page: Int,
         sortBy: String,
         query: String,
-        fromDate: String,
-        toDate: String
+        fromDate: String?,
+        toDate: String?
     ): Response<APIResponse> {
         return apiService.getTopHeadlines(page, sortBy, query, fromDate, toDate)
     }

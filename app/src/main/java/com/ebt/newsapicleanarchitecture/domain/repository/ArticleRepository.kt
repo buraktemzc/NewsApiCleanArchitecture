@@ -9,7 +9,7 @@ interface ArticleRepository {
         page: Int,
         sortBy: String,
         query: String,
-        fromDate: String,
-        toDate: String
+        fromDate: String?,
+        toDate: String?
     ): Result<APIResponse>
 }
