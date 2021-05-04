@@ -24,6 +24,10 @@ class NewsListViewModel @Inject constructor(
 ) : ViewModel() {
     val apiResult: MutableLiveData<Result<APIResponse>> = MutableLiveData()
 
+    init {
+        getArticles()
+    }
+
     fun getArticles() = viewModelScope.launch(Dispatchers.IO) {
         apiResult.postValue(Result.Loading())
 

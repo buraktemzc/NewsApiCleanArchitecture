@@ -1,13 +1,14 @@
 package com.ebt.newsapicleanarchitecture.presentation.fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ebt.newsapicleanarchitecture.R
 import com.ebt.newsapicleanarchitecture.data.util.Result
 import com.ebt.newsapicleanarchitecture.databinding.FragmentNewsListBinding
 import com.ebt.newsapicleanarchitecture.presentation.adapter.ArticleAdapter
@@ -26,8 +27,9 @@ class NewsListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentNewsListBinding.inflate(inflater, container, false)
+        setHasOptionsMenu(true)
         return binding.root
     }
 
@@ -36,7 +38,6 @@ class NewsListFragment : Fragment() {
         initObservers()
         initListeners()
         initUI()
-        viewModel.getArticles()
     }
 
     override fun onDestroyView() {
@@ -44,9 +45,28 @@ class NewsListFragment : Fragment() {
         _binding = null
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_list, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.filter -> {
+                Toast.makeText(requireContext(), "Hello", Toast.LENGTH_SHORT).show()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     private fun initListeners() {
         articleAdapter.setOnItemClickListener {
-
+            findNavController().navigate(
+                R.id.action_newsListFragment_to_newsDetailFragment,
+                Bundle().apply {
+                    putString("article_url", it.url)
+                }
+            )
         }
     }
 

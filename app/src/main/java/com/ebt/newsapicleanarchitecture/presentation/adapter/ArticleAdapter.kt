@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.ebt.newsapicleanarchitecture.R
 import com.ebt.newsapicleanarchitecture.data.model.Article
 import com.ebt.newsapicleanarchitecture.databinding.ItemArticleBinding
 
@@ -43,11 +44,15 @@ class ArticleAdapter : RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder>() 
         return differ.currentList.size
     }
 
-    inner class ArticleViewHolder(val binding: ItemArticleBinding) :
+    inner class ArticleViewHolder(private val binding: ItemArticleBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(article: Article) {
             binding.title.text = article.title
-            binding.description.text = article.description
+            var description = article.description
+            if (description.isNullOrEmpty())
+                description =
+                    binding.description.context.resources.getString(R.string.no_description)
+            binding.description.text = description
             Glide.with(binding.image.context)
                 .load(article.urlToImage)
                 .into(binding.image)
