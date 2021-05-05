@@ -4,13 +4,22 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 object DateUtil {
-    private const val DEFAULT_DATE_FORMAT = "yyyy-MM-dd"
-    private const val API_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'"
-    private const val NEWS_DATE_FORMAT = "dd-MM-yyyy HH:mm"
+    const val DEFAULT_DATE_FORMAT = "yyyy-MM-dd"
+    const val API_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'"
+    const val NEWS_DATE_FORMAT = "dd-MM-yyyy HH:mm"
 
-    fun getDateBeforeNowInString(dateFormat: String? = DEFAULT_DATE_FORMAT, dayAgo: Int): String {
+    fun getDateBeforeNow(dayAgo: Int): Calendar {
         val calendar = Calendar.getInstance()
         calendar.add(Calendar.DAY_OF_YEAR, dayAgo)
+        return calendar
+    }
+
+    fun getDateBeforeNowInString(dateFormat: String? = DEFAULT_DATE_FORMAT, dayAgo: Int): String {
+        val calendar = getDateBeforeNow(dayAgo)
+        return SimpleDateFormat(dateFormat).format(calendar.time)
+    }
+
+    fun getDateInString(dateFormat: String? = DEFAULT_DATE_FORMAT, calendar: Calendar): String {
         return SimpleDateFormat(dateFormat).format(calendar.time)
     }
 

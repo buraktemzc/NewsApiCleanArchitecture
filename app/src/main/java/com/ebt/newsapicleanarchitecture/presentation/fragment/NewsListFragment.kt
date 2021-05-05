@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ebt.newsapicleanarchitecture.R
+import com.ebt.newsapicleanarchitecture.common.DateUtil
 import com.ebt.newsapicleanarchitecture.common.observeEvent
 import com.ebt.newsapicleanarchitecture.data.util.Result
 import com.ebt.newsapicleanarchitecture.databinding.FragmentNewsListBinding
@@ -105,8 +106,24 @@ class NewsListFragment : Fragment() {
             }
         })
 
+        viewModel.defaultDateInitialized.observeEvent(viewLifecycleOwner) {
+            it.let {
+                sharedViewModel.sCalendar = it.startDate
+                sharedViewModel.eCalendar = it.endDate
+            }
+        }
+
         sharedViewModel.calendar.observeEvent(viewLifecycleOwner) {
-            viewModel.getArticles(it)
+            viewModel.getArticles(
+                DateUtil.getDateInString(
+                    dateFormat = DateUtil.API_DATE_FORMAT,
+                    calendar = it.startDate
+                ),
+                DateUtil.getDateInString(
+                    dateFormat = DateUtil.API_DATE_FORMAT,
+                    calendar = it.endDate
+                )
+            )
         }
     }
 
