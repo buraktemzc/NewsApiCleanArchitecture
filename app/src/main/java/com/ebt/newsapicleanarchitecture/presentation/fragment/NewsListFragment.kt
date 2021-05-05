@@ -4,15 +4,18 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ebt.newsapicleanarchitecture.R
+import com.ebt.newsapicleanarchitecture.common.observeEvent
 import com.ebt.newsapicleanarchitecture.data.util.Result
 import com.ebt.newsapicleanarchitecture.databinding.FragmentNewsListBinding
 import com.ebt.newsapicleanarchitecture.presentation.adapter.ArticleAdapter
 import com.ebt.newsapicleanarchitecture.presentation.viewmodel.NewsListViewModel
+import com.ebt.newsapicleanarchitecture.presentation.viewmodel.SharedCalendarViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,6 +23,7 @@ class NewsListFragment : Fragment() {
     private var _binding: FragmentNewsListBinding? = null
     private val binding get() = _binding!!
     private val viewModel: NewsListViewModel by viewModels()
+    private val sharedViewModel: SharedCalendarViewModel by activityViewModels()
     private val articleAdapter by lazy {
         ArticleAdapter()
     }
@@ -53,7 +57,9 @@ class NewsListFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.filter -> {
-                Toast.makeText(requireContext(), "Hello", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(
+                    NewsListFragmentDirections.actionNewsListFragmentToCalendarDialogFragment()
+                )
             }
         }
         return super.onOptionsItemSelected(item)
@@ -86,16 +92,22 @@ class NewsListFragment : Fragment() {
                     articles?.let {
                         val dataList = ArrayList(articles)
                         articleAdapter.differ.submitList(dataList)
+                        updateUIVisibility(it.size)
                     }
                 }
                 is Result.Error -> {
                     hideLoading()
+                    Toast.makeText(requireContext(), "Error: $it", Toast.LENGTH_SHORT).show()
                 }
                 is Result.Loading -> {
                     showLoading()
                 }
             }
         })
+
+        sharedViewModel.calendar.observeEvent(viewLifecycleOwner) {
+            viewModel.getArticles(it)
+        }
     }
 
     private fun showLoading() {
@@ -104,5 +116,15 @@ class NewsListFragment : Fragment() {
 
     private fun hideLoading() {
         binding.progressBar.visibility = View.INVISIBLE
+    }
+
+    private fun updateUIVisibility(listSize: Int) {
+        if (listSize > 0) {
+            binding.recyclerView.visibility = View.VISIBLE
+            binding.emptyMessageTextView.visibility = View.GONE
+        } else {
+            binding.recyclerView.visibility = View.GONE
+            binding.emptyMessageTextView.visibility = View.VISIBLE
+        }
     }
 }

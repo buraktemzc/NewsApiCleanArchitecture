@@ -12,7 +12,7 @@ class ArticleRepositoryImpl @Inject constructor(
 ) : ArticleRepository {
 
     override suspend fun getArticles(
-        page: Int,
+        page: Int?,
         sortBy: String,
         query: String,
         fromDate: String?,

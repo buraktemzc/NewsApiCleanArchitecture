@@ -8,22 +8,31 @@
     <fragment
         android:id="@+id/newsListFragment"
         android:name="com.ebt.newsapicleanarchitecture.presentation.fragment.NewsListFragment"
-        android:label="fragment_news_list"
+        android:label="@string/news_list"
         tools:layout="@layout/fragment_news_list">
 
         <action
             android:id="@+id/action_newsListFragment_to_newsDetailFragment"
             app:destination="@id/newsDetailFragment" />
+        <action
+            android:id="@+id/action_newsListFragment_to_calendarDialogFragment"
+            app:destination="@id/calendarDialogFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/newsDetailFragment"
         android:name="com.ebt.newsapicleanarchitecture.presentation.fragment.NewsDetailFragment"
-        android:label="fragment_news_detail"
+        android:label="@string/news_detail"
         tools:layout="@layout/fragment_news_detail">
 
         <argument
             android:name="article_url"
             app:argType="string" />
     </fragment>
+
+    <dialog
+        android:id="@+id/calendarDialogFragment"
+        android:name="com.ebt.newsapicleanarchitecture.presentation.dialog.CalendarDialogFragment"
+        android:label="fragment_calendar_dialog"
+        tools:layout="@layout/fragment_calendar_dialog" />
 </navigation>

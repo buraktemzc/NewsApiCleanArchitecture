@@ -7,7 +7,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ApiService {
-    @GET("v2/top-headlines")
+    @GET("v2/everything")
     suspend fun getTopHeadlines(
         @Query("page")
         page: Int?,

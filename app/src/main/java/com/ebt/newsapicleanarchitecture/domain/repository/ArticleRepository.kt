@@ -6,7 +6,7 @@ import com.ebt.newsapicleanarchitecture.data.util.Result
 
 interface ArticleRepository {
     suspend fun getArticles(
-        page: Int,
+        page: Int?,
         sortBy: String,
         query: String,
         fromDate: String?,

@@ -5,7 +5,7 @@ import retrofit2.Response
 
 interface ArticleRemoteDataSource {
     suspend fun getArticles(
-        page: Int,
+        page: Int?,
         sortBy: String,
         query: String,
         fromDate: String?,

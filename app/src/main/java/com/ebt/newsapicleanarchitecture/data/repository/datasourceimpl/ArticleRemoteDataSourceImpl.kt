@@ -7,7 +7,7 @@ import retrofit2.Response
 
 class ArticleRemoteDataSourceImpl(private val apiService: ApiService) : ArticleRemoteDataSource {
     override suspend fun getArticles(
-        page: Int,
+        page: Int?,
         sortBy: String,
         query: String,
         fromDate: String?,

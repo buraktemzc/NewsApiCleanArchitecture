@@ -8,6 +8,7 @@ import android.os.Build
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ebt.newsapicleanarchitecture.common.DateUtil
 import com.ebt.newsapicleanarchitecture.data.model.APIResponse
 import com.ebt.newsapicleanarchitecture.data.util.Result
 import com.ebt.newsapicleanarchitecture.domain.usecase.GetArticlesUseCase
@@ -25,15 +26,17 @@ class NewsListViewModel @Inject constructor(
     val apiResult: MutableLiveData<Result<APIResponse>> = MutableLiveData()
 
     init {
-        getArticles()
+        val toDate = DateUtil.getDateBeforeNowInString(dayAgo = -10)
+        getArticles(toDate)
     }
 
-    fun getArticles() = viewModelScope.launch(Dispatchers.IO) {
+    fun getArticles(toDate: String) = viewModelScope.launch(Dispatchers.IO) {
         apiResult.postValue(Result.Loading())
 
         try {
             if (isNetworkAvailable(app)) {
-                val result = getArticlesUseCase.execute(1, "publishedAt", "football", null, null)
+                val result =
+                    getArticlesUseCase.execute(null, "publishedAt", "football", null, toDate)
                 withContext(Dispatchers.Main) {
                     apiResult.value = result
                 }

@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class GetArticlesUseCase @Inject constructor(private val articleRepository: ArticleRepository) {
     suspend fun execute(
-        page: Int,
+        page: Int?,
         sortBy: String,
         query: String,
         fromDate: String?,

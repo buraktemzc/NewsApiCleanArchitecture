@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ebt.newsapicleanarchitecture.R
+import com.ebt.newsapicleanarchitecture.common.DateUtil
 import com.ebt.newsapicleanarchitecture.data.model.Article
 import com.ebt.newsapicleanarchitecture.databinding.ItemArticleBinding
 
@@ -53,6 +54,14 @@ class ArticleAdapter : RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder>() 
                 description =
                     binding.description.context.resources.getString(R.string.no_description)
             binding.description.text = description
+
+            var publishedDate = article.publishedAt
+            publishedDate = if (publishedDate.isNullOrEmpty())
+                "-"
+            else
+                DateUtil.convertISODateToString(date = publishedDate)
+            binding.date.text = publishedDate
+
             Glide.with(binding.image.context)
                 .load(article.urlToImage)
                 .into(binding.image)

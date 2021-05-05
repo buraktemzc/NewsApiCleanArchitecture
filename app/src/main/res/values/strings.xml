@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">NewsApiCleanArchitecture</string>
     <string name="no_description">-- There is no description in this article. --</string>
+    <string name="no_article">-- There is no article between days. --</string>
     <string name="filter">Filter</string>
+    <string name="news_list">News List</string>
+    <string name="news_detail">News Detail</string>
+    <string name="calendar_dialog">Choose Date</string>
+    <string name="done">Done</string>
+    <string name="choose_date">Please select start date</string>
 </resources>
