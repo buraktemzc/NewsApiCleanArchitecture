@@ -8,7 +8,7 @@ import retrofit2.http.Query
 
 interface ApiService {
     @GET("v2/everything")
-    suspend fun getTopHeadlines(
+    suspend fun getArticles(
         @Query("page")
         page: Int?,
         @Query("sortBy")
